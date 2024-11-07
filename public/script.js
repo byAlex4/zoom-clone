@@ -1,9 +1,16 @@
 const socket = io('/');
 const videoGrid = document.getElementById('video-grid');
+const PORT = process.env.PORT || 3000;
 const myPeer = new Peer(undefined, {
   host: '/',
-  port: '3001'
+  port: PORT
 });
+
+myPeer.on('error', (error) => {
+  console.error('PeerJS error:', error);
+});
+
+
 const myVideo = document.createElement('video');
 myVideo.muted = true;
 const peers = {};
