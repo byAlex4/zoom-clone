@@ -46,11 +46,12 @@ server.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
-chrome.runtime.sendMessage({ greeting: "hello" }, (response) => {
-  if (chrome.runtime.lastError) {
-    console.error("Error:", chrome.runtime.lastError.message);
-  } else {
-    console.log("Response:", response);
-  }
+window.addEventListener('error', (event) => {
+  console.error("Error occurred:", event.message);
 });
+
+window.addEventListener('unhandledrejection', (event) => {
+  console.error("Unhandled promise rejection:", event.reason);
+});
+
 
