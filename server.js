@@ -16,7 +16,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:room', (req, res) => {
-  res.render('room', { roomId: req.params.room, port: PORT });
+  const roomId = req.params.room;
+  process.env.ROOM_ID = roomId;
+  process.env.PORT = PORT;
+  res.render('room', { roomId: roomId, port: PORT });
 });
 
 io.on('connection', (socket) => {

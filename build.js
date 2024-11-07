@@ -11,8 +11,9 @@ if (!fs.existsSync(outputDir)) {
 }
 
 // Obtener roomId y port de los argumentos de la línea de comandos
-const roomId = process.argv[2];
-const port = process.argv[3];
+const roomId = process.env.ROOM_ID;
+const port = process.env.PORT;
+
 console.log("build", roomId, port)
 // Datos para roomId y port
 const data = {
