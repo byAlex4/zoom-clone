@@ -8,13 +8,12 @@
   <script>
     const ROOM_ID = "<%= roomId %>";
     const PORT = "<%= port %>";
-
     console.log(ROOM_ID);
     console.log(PORT);
   </script>
   <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
   <script src="/socket.io/socket.io.js" defer></script>
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
   <title>Document root</title>
   <style>
     #video-grid {
@@ -33,7 +32,6 @@
 
 <body>
   <div id="video-grid"></div>
-
 </body>
 
 </html>
