@@ -6,8 +6,6 @@ const io = require('socket.io')(server, {
 });
 const { v4: uuidV4 } = require('uuid');
 
-const { exec } = require('child_process');
-
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
@@ -19,19 +17,6 @@ app.get('/', (req, res) => {
 
 app.get('/:room', (req, res) => {
   res.render('room', { roomId: req.params.room, port: PORT });
-});
-
-// Ejecutar build.js con roomId y port
-exec(`node build.js ${roomId} ${PORT}`, (error, stdout, stderr) => {
-  if (error) {
-    console.error(`Error ejecutando build.js: ${error.message}`);
-    return;
-  }
-  if (stderr) {
-    console.error(`stderr: ${stderr}`);
-    return;
-  }
-  console.log(`stdout: ${stdout}`);
 });
 
 io.on('connection', (socket) => {
