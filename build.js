@@ -10,8 +10,11 @@ if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir);
 }
 
-// Datos de ejemplo para roomId
-const data = { roomId: 'example-room-id' };
+// Datos de ejemplo para roomId y port
+const data = {
+    roomId: 'example-room-id',
+    port: process.env.PORT || 3000 // Asegúrate de definir el puerto aquí
+};
 
 // Lee y renderiza cada archivo .ejs
 fs.readdirSync(viewsDir).forEach(file => {
