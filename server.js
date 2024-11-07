@@ -21,9 +21,11 @@ app.get('/:room', (req, res) => {
   res.render('room', { roomId, port: PORT });
 
   // Ejecutar build.js con roomId y port
+  console.log("Ejecutar build.js con roomId y port")
   const buildProcess = spawn('node', ['build.js', roomId, PORT]);
 
   buildProcess.stdout.on('data', (data) => {
+    console.log("buildProcess")
     console.log(`stdout: ${data}`);
   });
 
