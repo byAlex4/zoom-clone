@@ -32,11 +32,4 @@ fs.readdirSync(viewsDir).forEach(file => {
     }
 });
 
-window.addEventListener('error', (event) => {
-    console.error("Error occurred:", event.message);
-});
-
-window.addEventListener('unhandledrejection', (event) => {
-    console.error("Unhandled promise rejection:", event.reason);
-});
 

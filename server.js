@@ -46,12 +46,5 @@ server.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
 
-window.addEventListener('error', (event) => {
-  console.error("Error occurred:", event.message);
-});
-
-window.addEventListener('unhandledrejection', (event) => {
-  console.error("Unhandled promise rejection:", event.reason);
-});
 
 
