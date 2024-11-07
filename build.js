@@ -10,10 +10,14 @@ if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir);
 }
 
-// Datos de ejemplo para roomId y port
+// Obtener roomId y port de los argumentos de la línea de comandos
+const roomId = process.argv[2];
+const port = process.argv[3];
+
+// Datos para roomId y port
 const data = {
-    roomId: 'example-room-id',
-    port: process.env.PORT || 3000 // Asegúrate de definir el puerto aquí
+    roomId: roomId,
+    port: port
 };
 
 // Lee y renderiza cada archivo .ejs

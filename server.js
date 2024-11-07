@@ -19,6 +19,19 @@ app.get('/:room', (req, res) => {
   res.render('room', { roomId: req.params.room, port: PORT });
 });
 
+// Ejecutar build.js con roomId y port
+exec(`node build.js ${roomId} ${PORT}`, (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Error ejecutando build.js: ${error.message}`);
+    return;
+  }
+  if (stderr) {
+    console.error(`stderr: ${stderr}`);
+    return;
+  }
+  console.log(`stdout: ${stdout}`);
+});
+
 io.on('connection', (socket) => {
   console.log('New client connected');
 
