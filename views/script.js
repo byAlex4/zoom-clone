@@ -4,12 +4,6 @@ const myPeer = new Peer(undefined, {
   host: '/',
   port: PORT
 });
-
-myPeer.on('error', (error) => {
-  console.error('PeerJS error:', error);
-});
-
-
 const myVideo = document.createElement('video');
 myVideo.muted = true;
 const peers = {};

@@ -4,11 +4,12 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server, {
   transports: ['websocket', 'polling']
 });
-console.log(io);
 const { v4: uuidV4 } = require('uuid');
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+
+const PORT = process.env.PORT || 3000; // Define PORT aquí
 
 app.get('/', (req, res) => {
   res.redirect(`/${uuidV4()}`);
@@ -17,7 +18,6 @@ app.get('/', (req, res) => {
 app.get('/:room', (req, res) => {
   res.render('room', { roomId: req.params.room, port: PORT });
 });
-
 
 io.on('connection', (socket) => {
   console.log('New client connected');
@@ -58,7 +58,6 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
