@@ -1,13 +1,10 @@
 const express = require('express');
-const cors = require('cors');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server, {
   transports: ['websocket', 'polling']
 });
 const { v4: uuidV4 } = require('uuid');
-app.use(cors());
-
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
