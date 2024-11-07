@@ -17,6 +17,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:room', (req, res) => {
+  if (req.params.room === 'favicon.ico') {
+    res.status(204).end();
+    return;
+  }
+
   const roomId = req.params.room;
   res.render('room', { roomId, port: PORT });
 
