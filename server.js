@@ -17,13 +17,39 @@ app.get('/:room', (req, res) => {
 
 io.on('connection', socket => {
   socket.on('join-room', (roomId, userId) => {
-    socket.join(roomId)
-    socket.to(roomId).broadcast.emit('user-connected', userId)
+    console.log('join-room event received:', roomId, userId);
+    if (roomId && userId) {
+      socket.join(roomId)
+      const room = socket.to(roomId);
+      if (room && room.broadcast) {
+        try {
+          room.broadcast.emit('user-connected', userId)
+        } catch (error) {
+          console.error('Error emitting user-connected:', error);
+        }
+      } else {
+        console.error('room or room.broadcast is undefined');
+      }
+    } else {
+      console.error('roomId or userId is undefined');
+    }
 
     socket.on('disconnect', () => {
-      socket.to(roomId).broadcast.emit('user-disconnected', userId)
+      console.log('user disconnected:', userId);
+      const room = socket.to(roomId);
+      if (room && room.broadcast) {
+        try {
+          room.broadcast.emit('user-disconnected', userId)
+        } catch (error) {
+          console.error('Error emitting user-disconnected:', error);
+        }
+      } else {
+        console.error('room or room.broadcast is undefined on disconnect');
+      }
     })
   })
 })
 
-server.listen(3000)
+server.listen(3000, () => {
+  console.log('Server is running on port 3000');
+})

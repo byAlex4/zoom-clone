@@ -1,3 +1,5 @@
+<script src="/path/to/socket.io.js"></script>
+
 const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
