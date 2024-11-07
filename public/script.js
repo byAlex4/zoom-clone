@@ -1,9 +1,10 @@
 const socket = io('/');
 const videoGrid = document.getElementById('video-grid');
-
 const myPeer = new Peer(undefined, {
-  host: '/',
-  port: PORT
+  host: 'mighty-oasis-96312-f0778e903b79.herokuapp.com',
+  port: PORT,
+  path: '/peerjs',
+  secure: true
 });
 const myVideo = document.createElement('video');
 myVideo.muted = true;
@@ -39,6 +40,14 @@ navigator.mediaDevices.getUserMedia({
 socket.on('user-disconnected', userId => {
   console.log('User disconnected:', userId);
   if (peers[userId]) peers[userId].close();
+});
+
+socket.on('connect_error', (error) => {
+  console.error('Connection error:', error);
+});
+
+socket.on('disconnect', (reason) => {
+  console.log('Disconnected:', reason);
 });
 
 myPeer.on('open', id => {
