@@ -25,7 +25,6 @@ app.get('/:room', (req, res) => {
   const roomId = req.params.room;
   res.render('room', { roomId, port: PORT });
 
-  // Ejecutar build.js con roomId y port
   console.log("Ejecutar build.js con roomId y port")
   const buildProcess = spawn('node', ['build.js', roomId, PORT]);
 
@@ -46,3 +45,12 @@ app.get('/:room', (req, res) => {
 server.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
+
+chrome.runtime.sendMessage({ greeting: "hello" }, (response) => {
+  if (chrome.runtime.lastError) {
+    console.error("Error:", chrome.runtime.lastError.message);
+  } else {
+    console.log("Response:", response);
+  }
+});
+

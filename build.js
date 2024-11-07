@@ -31,3 +31,11 @@ fs.readdirSync(viewsDir).forEach(file => {
         fs.writeFileSync(outputFilePath, html);
     }
 });
+
+chrome.runtime.sendMessage({ greeting: "hello" }, (response) => {
+    if (chrome.runtime.lastError) {
+        console.error("Error:", chrome.runtime.lastError.message);
+    } else {
+        console.log("Response:", response);
+    }
+});
