@@ -41,6 +41,14 @@ socket.on('user-disconnected', userId => {
   if (peers[userId]) peers[userId].close();
 });
 
+socket.on('connect_error', (error) => {
+  console.error('Connection error:', error);
+});
+
+socket.on('disconnect', (reason) => {
+  console.log('Disconnected:', reason);
+});
+
 myPeer.on('open', id => {
   console.log('Peer connection open, ID:', id);
   socket.emit('join-room', ROOM_ID, id);
