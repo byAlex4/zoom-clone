@@ -6,7 +6,8 @@
   "scripts": {
     "postinstall": "npm i -g peer",
     "start": "node server.js",
-    "peerjs": "peerjs --port $PORT"
+    "peerjs": "peerjs --port $PORT",
+    "devStart": "nodemon server.js"
   },
   "keywords": [],
   "author": "",

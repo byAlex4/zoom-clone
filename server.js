@@ -17,25 +17,6 @@ const { spawn } = require('child_process');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-const PORT = process.env.PORT || 3000;
-
-/* Configurar PeerJS
-const { PeerServer } = require('peer');
-const peerServer = PeerServer({
-  port: 3001,
-  path: '/peerjs',
-  allow_discovery: true,
-  proxied: true,
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ['Content-Type']
-  }
-});
-
-app.use('/peerjs', peerServer);
-*/
-
 app.get('/', (req, res) => {
   res.redirect(`/${uuidV4()}`);
 });
@@ -65,7 +46,7 @@ app.get('/:room', (req, res) => {
     console.log(`build.js process exited with code ${code}`);
   });
 });
-
+const PORT = 3000
 server.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
