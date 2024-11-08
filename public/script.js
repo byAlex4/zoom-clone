@@ -9,7 +9,7 @@ const port = 3001;
 console.log("peerjs port", port);
 
 const myPeer = new Peer(undefined, {
-  host: 'mighty-oasis-96312-f0778e903b79.herokuapp.com/',
+  host: 'mighty-oasis-96312-f0778e903b79.herokuapp.com',
   port: port,
   secure: true // Asegúrate de que la conexión sea segura
 });
