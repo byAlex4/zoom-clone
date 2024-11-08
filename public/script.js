@@ -1,15 +1,17 @@
-const socket = io('wss://mighty-oasis-96312-f0778e903b79.herokuapp.com', {
-  transports: ['websocket', 'polling'], // Asegúrate de que esté configurado
-  secure: true
-});
+const socket = io('/', {
+  secure: true,
+  transports: ['websocket', 'polling']
+})
 
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {
-  host: location.hostname,
-  port: location.port,
-  secure: location.protocol === 'https:'
+  host: location.hostname,  // Usa el host actual
+  port: location.port || (location.protocol === 'https:' ? 443 : 80), // Heroku maneja HTTP y HTTPS
+  path: '/peerjs',
+  secure: location.protocol === 'https:' // Asegúrate de que sea seguro si estás en HTTPS
 })
+
 
 const myVideo = document.createElement('video')
 myVideo.muted = true
