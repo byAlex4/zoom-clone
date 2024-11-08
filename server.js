@@ -46,7 +46,7 @@ app.get('/:room', (req, res) => {
     console.log(`build.js process exited with code ${code}`);
   });
 });
-const PORT = 3000
+
 server.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

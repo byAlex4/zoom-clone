@@ -11,7 +11,7 @@ console.log("peerjs port", port);
 const myPeer = new Peer(undefined, {
   host: '/',
   port: port,
-  secure: false // Asegúrate de que la conexión sea segura
+  secure: true // Asegúrate de que la conexión sea segura
 });
 
 const myVideo = document.createElement('video');
