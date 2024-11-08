@@ -1,10 +1,14 @@
 const socket = io('/');
 const videoGrid = document.getElementById('video-grid');
 
+// Asegúrate de definir el puerto. Cambia `YOUR_PEERJS_PORT` al puerto que esté en uso.
 const myPeer = new Peer(undefined, {
   host: '/',
-  port: PORT
+  port: location.port || 443, // Cambia aquí si necesitas un puerto específico o estás en desarrollo
+  path: '/peerjs', // Cambia según tu configuración
+  secure: location.protocol === 'https:' // Asegura HTTPS en producción
 });
+
 const myVideo = document.createElement('video');
 myVideo.muted = true;
 const peers = {};
