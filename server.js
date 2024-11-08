@@ -23,7 +23,6 @@ const PORT = process.env.PORT || 3000;
 const { PeerServer } = require('peer');
 const peerServer = PeerServer({
   port: 3001,
-  path: '/peerjs',
   allow_discovery: true,
   proxied: true,
   cors: {
@@ -32,7 +31,7 @@ const peerServer = PeerServer({
   }
 });
 
-app.use(peerServer);
+app.use('/peerjs', peerServer);
 
 app.get('/', (req, res) => {
   res.redirect(`/${uuidV4()}`);
