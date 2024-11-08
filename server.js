@@ -1,19 +1,6 @@
 const express = require('express')
 const { ExpressPeerServer } = require('peer')
 const app = express()
-// Middleware para redireccionar todo a HTTPS
-app.enable('trust proxy') // Para permitir que el servidor reconozca el proxy de Heroku
-
-/*
-app.use((req, res, next) => {
-  if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
-    next()
-  } else {
-    res.redirect(`https://${req.headers.host}${req.url}`)
-  }
-})
-*/
-
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { v4: uuidV4 } = require('uuid')

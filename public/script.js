@@ -1,17 +1,11 @@
-const socket = io('/', {
-  secure: true,
-  transports: ['websocket', 'polling']
-})
-
+const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {
-  host: location.hostname,  // Usa el host actual
-  port: location.port || (location.protocol === 'https:' ? 443 : 80), // Heroku maneja HTTP y HTTPS
-  path: '/peerjs',
-  secure: location.protocol === 'https:' // Asegúrate de que sea seguro si estás en HTTPS
+  host: location.hostname,
+  port: location.port,
+  secure: location.protocol === 'https:'
 })
-
 
 const myVideo = document.createElement('video')
 myVideo.muted = true
