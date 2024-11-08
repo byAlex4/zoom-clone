@@ -19,7 +19,7 @@ app.use(express.static('public'));
 
 const PORT = process.env.PORT || 3000;
 
-// Configurar PeerJS
+/* Configurar PeerJS
 const { PeerServer } = require('peer');
 const peerServer = PeerServer({
   port: 3001,
@@ -28,11 +28,13 @@ const peerServer = PeerServer({
   proxied: true,
   cors: {
     origin: "*",
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST"],
+    allowedHeaders: ['Content-Type']
   }
 });
 
 app.use('/peerjs', peerServer);
+*/
 
 app.get('/', (req, res) => {
   res.redirect(`/${uuidV4()}`);
