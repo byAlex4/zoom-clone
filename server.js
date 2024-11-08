@@ -20,9 +20,9 @@ app.use(express.static('public'));
 const PORT = process.env.PORT || 3000;
 
 // Configurar PeerJS
-const { PeerServer } = require('peer');
-const peerServer = PeerServer({
-  port: 3001,
+const { ExpressPeerServer } = require('peerjs');
+const peerServer = ExpressPeerServer(server, {
+  debug: true,
   path: '/peerjs',
   allow_discovery: true,
   proxied: true,
@@ -31,6 +31,7 @@ const peerServer = PeerServer({
     methods: ["GET", "POST"]
   }
 });
+
 
 app.use('/peerjs', peerServer);
 
