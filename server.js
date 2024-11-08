@@ -32,7 +32,7 @@ io.on('connection', socket => {
 // Integración de PeerJS en el mismo servidor
 const peerServer = ExpressPeerServer(server, {
   debug: true,
-  path: '/peerjs'
+  path: '/'
 })
 app.use('/peerjs', peerServer)
 
