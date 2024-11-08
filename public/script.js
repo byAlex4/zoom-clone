@@ -1,4 +1,8 @@
-const socket = io('/')
+const socket = io('wss://mighty-oasis-96312-f0778e903b79.herokuapp.com', {
+  transports: ['websocket', 'polling'], // Asegúrate de que esté configurado
+  secure: true
+});
+
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {

@@ -1,19 +1,13 @@
 const express = require('express')
 const { ExpressPeerServer } = require('peer')
 const app = express()
-// Middleware para redireccionar todo a HTTPS
-app.enable('trust proxy') // Para permitir que el servidor reconozca el proxy de Heroku
-
-app.use((req, res, next) => {
-  if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
-    next()
-  } else {
-    res.redirect(`https://${req.headers.host}${req.url}`)
-  }
-})
 const server = require('http').Server(app)
-const io = require('socket.io')(server)
+const io = require('socket.io')(server, {
+  transports: ['websocket', 'polling'], // Asegúrate de usar estos transportes
+});
+
 const { v4: uuidV4 } = require('uuid')
+app.enable('trust proxy'); // Asegura que Heroku pueda manejar las conexiones HTTPS
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -42,7 +36,7 @@ io.on('connection', socket => {
 // Integración de PeerJS en el mismo servidor
 const peerServer = ExpressPeerServer(server, {
   debug: true,
-  path: '/'
+  path: '/peerjs'
 })
 app.use('/peerjs', peerServer)
 
