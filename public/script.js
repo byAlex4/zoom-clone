@@ -1,4 +1,9 @@
-const socket = io('/');
+const socket = io('/', {
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+  timeout: 20000
+});
+
 const videoGrid = document.getElementById('video-grid');
 
 const port = 3001;
