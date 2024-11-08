@@ -1,1 +1,1 @@
-web: npm run start && npm run peerjs
+web: npm install -g peer && npm run start
