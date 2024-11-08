@@ -32,7 +32,7 @@ const peerServer = PeerServer({
   }
 });
 
-app.use('/peerjs', peerServer);
+app.use(peerServer);
 
 app.get('/', (req, res) => {
   res.redirect(`/${uuidV4()}`);
