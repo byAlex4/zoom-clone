@@ -9,6 +9,9 @@ const io = require('socket.io')(server, {
   }
 });
 
+app.use(cors());
+
+
 const { v4: uuidV4 } = require('uuid');
 const { spawn } = require('child_process');
 

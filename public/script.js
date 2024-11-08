@@ -11,7 +11,8 @@ console.log("peerjs port", port);
 
 const myPeer = new Peer(undefined, {
   host: '/',
-  port: port
+  port: port,
+  path: '/peerjs'
 });
 
 const myVideo = document.createElement('video');
