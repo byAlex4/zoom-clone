@@ -11,7 +11,6 @@ const io = require('socket.io')(server, {
 
 app.use(cors());
 
-
 const { v4: uuidV4 } = require('uuid');
 const { spawn } = require('child_process');
 
@@ -19,6 +18,21 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 const PORT = process.env.PORT || 3000;
+
+// Configurar PeerJS
+const { PeerServer } = require('peer');
+const peerServer = PeerServer({
+  port: 3001,
+  path: '/peerjs',
+  allow_discovery: true,
+  proxied: true,
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
+
+app.use('/peerjs', peerServer);
 
 app.get('/', (req, res) => {
   res.redirect(`/${uuidV4()}`);
@@ -53,6 +67,3 @@ app.get('/:room', (req, res) => {
 server.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
-
-
-
