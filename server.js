@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 3000;
 // Configurar PeerJS
 const { PeerServer } = require('peer');
 const peerServer = PeerServer({
-  port: 3001,
+  port: 443,
   path: '/peerjs',
   allow_discovery: true,
   proxied: true,
