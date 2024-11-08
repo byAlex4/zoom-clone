@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm i -g peer",
     "start": "node server.js",
     "peerjs": "peerjs --port 3001"
   },
