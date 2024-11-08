@@ -1,54 +1,29 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
-});
+const express = require('express')
+const app = express()
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
+const { v4: uuidV4 } = require('uuid')
 
-app.use(cors());
-
-const { v4: uuidV4 } = require('uuid');
-const { spawn } = require('child_process');
-
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-
-const PORT = process.env.PORT || 3000;
+app.set('view engine', 'ejs')
+app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-  res.redirect(`/${uuidV4()}`);
-});
+  res.redirect(`/${uuidV4()}`)
+})
 
 app.get('/:room', (req, res) => {
-  if (req.params.room === 'favicon.ico') {
-    res.status(204).end();
-    return;
-  }
+  res.render('room', { roomId: req.params.room })
+})
 
-  const roomId = req.params.room;
-  res.render('room', { roomId, port: PORT });
+io.on('connection', socket => {
+  socket.on('join-room', (roomId, userId) => {
+    socket.join(roomId)
+    socket.to(roomId).broadcast.emit('user-connected', userId)
 
-  console.log("Ejecutar build.js con roomId y port")
-  const buildProcess = spawn('node', ['build.js', roomId, PORT]);
+    socket.on('disconnect', () => {
+      socket.to(roomId).broadcast.emit('user-disconnected', userId)
+    })
+  })
+})
 
-  buildProcess.stdout.on('data', (data) => {
-    console.log("buildProcess")
-    console.log(`stdout: ${data}`);
-  });
-
-  buildProcess.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
-  });
-
-  buildProcess.on('close', (code) => {
-    console.log(`build.js process exited with code ${code}`);
-  });
-});
-
-server.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
+server.listen(3000)
