@@ -29,11 +29,11 @@ io.on('connection', socket => {
   })
 })
 
+const PORT = process.env.PORT || 3000
 // Inicializa PeerJS en el mismo servidor
-const peerServer = PeerServer({ port: process.env.PORT || 3000, path: '/peerjs' })
+const peerServer = PeerServer({ port: PORT, path: '/peerjs' })
 app.use(peerServer)  // Usamos peerServer en el mismo puerto
 
-const PORT = process.env.PORT || 3000
 server.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`)
 })
