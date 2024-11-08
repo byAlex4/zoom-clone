@@ -3,16 +3,16 @@ const socket = io('/', {
   reconnectionDelay: 1000,
   timeout: 20000
 });
-
 const videoGrid = document.getElementById('video-grid');
 
-const port = 3001;
+const port = 443; // Usar el puerto 443 para HTTPS
 console.log("peerjs port", port);
 
 const myPeer = new Peer(undefined, {
-  host: '/',
+  host: 'mighty-oasis-96312-f0778e903b79.herokuapp.com',
   port: port,
-  path: '/peerjs'
+  path: '/peerjs',
+  secure: true // Asegúrate de que la conexión sea segura
 });
 
 const myVideo = document.createElement('video');
