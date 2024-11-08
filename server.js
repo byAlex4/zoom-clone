@@ -1,9 +1,9 @@
 const express = require('express')
+const { ExpressPeerServer } = require('peer')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { v4: uuidV4 } = require('uuid')
-const { PeerServer } = require('peer') // Importa PeerServer directamente
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -29,11 +29,15 @@ io.on('connection', socket => {
   })
 })
 
-const PORT = process.env.PORT || 3000
-// Inicializa PeerJS en el mismo servidor
-const peerServer = PeerServer({ port: PORT, path: '/peerjs' })
-app.use(peerServer)  // Usamos peerServer en el mismo puerto
+// Integración de PeerJS en el mismo servidor
+const peerServer = ExpressPeerServer(server, {
+  debug: true,
+  path: '/peerjs'
+})
+app.use('/peerjs', peerServer)
 
+// Usar el puerto asignado por Heroku
+const PORT = process.env.PORT || 3000
 server.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`)
 })
