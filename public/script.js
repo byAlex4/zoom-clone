@@ -5,7 +5,7 @@ const socket = io('/', {
 });
 const videoGrid = document.getElementById('video-grid');
 
-const port = 443; // Usar el puerto 443 para HTTPS
+const port = 3001;
 console.log("peerjs port", port);
 
 const myPeer = new Peer(undefined, {
