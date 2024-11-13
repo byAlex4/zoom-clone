@@ -26,21 +26,32 @@ app.get('/:room', (req, res) => {
   res.render('room', { roomId: req.params.room })
 })
 
-// Configuración de Socket.IO
+// Configuración de Socket.IO para manejar la oferta y respuesta
 io.on('connection', socket => {
-  console.log('Nuevo cliente conectado')
+  console.log('Nuevo cliente conectado');
 
+  // Unirse a una sala
   socket.on('join-room', (roomId, userId) => {
-    console.log(`Usuario ${userId} se unió a la sala ${roomId}`)
-    socket.join(roomId)
-    socket.to(roomId).broadcast.emit('user-connected', userId)
+    console.log(`Usuario ${userId} se unió a la sala ${roomId}`);
+    socket.join(roomId);
+    socket.to(roomId).broadcast.emit('user-connected', userId);
+
+    // Manejar la oferta que llega de un cliente
+    socket.on('offer', (offer) => {
+      console.log(`Servidor recibió oferta de ${userId}:`, offer);
+
+      // Enviar la oferta a todos los demás clientes en la misma sala
+      socket.to(roomId).broadcast.emit('offer', offer);
+      console.log(`Servidor envió oferta a la sala ${roomId}`);
+    });
 
     socket.on('disconnect', () => {
-      console.log(`Usuario ${userId} se desconectó de la sala ${roomId}`)
-      socket.to(roomId).broadcast.emit('user-disconnected', userId)
-    })
-  })
-})
+      console.log(`Usuario ${userId} se desconectó de la sala ${roomId}`);
+      socket.to(roomId).broadcast.emit('user-disconnected', userId);
+    });
+  });
+});
+
 
 // Integración de PeerJS en el mismo servidor
 const peerServer = ExpressPeerServer(server, {
