@@ -7,6 +7,10 @@ const io = require('socket.io')(server, {
     origin: '*',  // Usa la URL específica de tu aplicación React Native/Expo
     methods: ['GET', 'POST'],
     credentials: true
+  },
+  cookie: {
+    sameSite: 'None', // Permite cookies en contextos cross-origin
+    secure: true // Solo en producción, asegúrate de usar HTTPS
   }
 });
 
