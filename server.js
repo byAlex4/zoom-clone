@@ -42,7 +42,7 @@ io.on('connection', socket => {
 
     // Manejar la oferta que llega de un cliente
     socket.on('offer', (offer) => {
-      console.log(`Servidor recibió oferta de ${userId}:`, offer);
+      console.log(`Servidor recibió oferta de ${userId}:`);
 
       // Enviar la oferta a todos los demás clientes en la misma sala
       socket.to(roomId).broadcast.emit('offer', offer);
