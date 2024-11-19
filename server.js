@@ -4,7 +4,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: 'mighty-oasis-96312-f0778e903b79.herokuapp.com', // O define un dominio específico si no quieres usar '*'
+    origin: '*', // O define un dominio específico si no quieres usar '*'
     methods: ['GET', 'POST'],
   },
   transports: ['websocket', 'polling'], // Asegúrate de soportar ambos transportes
