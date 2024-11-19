@@ -1,16 +1,22 @@
 const express = require('express');
 const { ExpressPeerServer } = require('peer');
 const app = express();
-const server = require('http').Server(app);
+const server = require('http').createServer(app);
+const cors = require('cors');
+
 const io = require('socket.io')(server, {
   cors: {
-    origin: '*', // O define un dominio específico si no quieres usar '*'
+    origin: 'http://localhost:8081', // O define un dominio específico si no quieres usar '*'
     methods: ['GET', 'POST'],
   },
   transports: ['websocket', 'polling'], // Asegúrate de soportar ambos transportes
 });
-const cors = require('cors');
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:8081',
+  methods: ["GET", "POST"],
+}));
+
 
 
 
