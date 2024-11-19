@@ -1,91 +1,65 @@
 const socket = io('/', {
-  reconnectionAttempts: 5,
-  reconnectionDelay: 1000,
-  timeout: 20000
+  transports: ['websocket', 'polling'], // Permite WebSocket y Polling
 });
-const videoGrid = document.getElementById('video-grid');
 
-const port = 3001;
-console.log("peerjs port", port);
+
+const videoGrid = document.getElementById('video-grid');
 
 const myPeer = new Peer(undefined, {
   host: '/',
-  port: port,
-  secure: true // Asegúrate de que la conexión sea segura
+  port: 3000,
+  path: '/peerjs',
+  secure: false,
 });
 
 const myVideo = document.createElement('video');
 myVideo.muted = true;
 const peers = {};
 
-navigator.mediaDevices.getUserMedia({
-  video: true,
-  audio: true
-}).then(stream => {
-  addVideoStream(myVideo, stream);
+navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+  .then(stream => {
+    console.log("Stream obtenido");
+    addVideoStream(myVideo, stream);
 
-  myPeer.on('call', call => {
-    console.log('Receiving call');
-    call.answer(stream);
-    const video = document.createElement('video');
-    call.on('stream', userVideoStream => {
-      console.log('Receiving user video stream');
-      addVideoStream(video, userVideoStream);
+    myPeer.on('call', call => {
+      console.log("Recibiendo llamada");
+      call.answer(stream);
+      const video = document.createElement('video');
+      call.on('stream', userVideoStream => {
+        addVideoStream(video, userVideoStream);
+      });
     });
-    call.on('error', error => {
-      console.error('Error during call:', error);
-    });
-  });
 
-  socket.on('user-connected', userId => {
-    console.log('User connected:', userId);
-    connectToNewUser(userId, stream);
-  });
-}).catch(error => {
-  console.error('Error accessing media devices:', error);
-});
+    socket.on('user-connected', userId => {
+      connectToNewUser(userId, stream);
+    });
+  })
+  .catch(error => console.error("Error al obtener stream:", error));
 
 socket.on('user-disconnected', userId => {
-  console.log('User disconnected:', userId);
   if (peers[userId]) peers[userId].close();
 });
 
-socket.on('connect_error', (error) => {
-  console.error('Connection error:', error);
-});
-
-socket.on('disconnect', (reason) => {
-  console.log('Disconnected:', reason);
-});
-
 myPeer.on('open', id => {
-  console.log('Peer connection open, ID:', id);
   socket.emit('join-room', ROOM_ID, id);
 });
 
+myPeer.on('error', error => {
+  console.error("Error en PeerJS:", error);
+});
+
 function connectToNewUser(userId, stream) {
-  console.log('Connecting to new user:', userId);
   const call = myPeer.call(userId, stream);
   const video = document.createElement('video');
   call.on('stream', userVideoStream => {
-    console.log('Receiving stream from new user');
     addVideoStream(video, userVideoStream);
   });
-  call.on('close', () => {
-    console.log('Call closed with user:', userId);
-    video.remove();
-  });
-  call.on('error', error => {
-    console.error('Error during call with user:', userId, error);
-  });
-
+  call.on('close', () => video.remove());
   peers[userId] = call;
 }
 
 function addVideoStream(video, stream) {
   video.srcObject = stream;
-  video.addEventListener('loadedmetadata', () => {
-    video.play();
-  });
+  video.addEventListener('loadedmetadata', () => video.play());
   videoGrid.append(video);
 }
