@@ -4,15 +4,11 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server, {
   cors: {
-    origin: '*',  // Usa la URL específica de tu aplicación React Native/Expo
+    origin: '*', // Cambia '*' por tu dominio en producción
     methods: ['GET', 'POST'],
-    credentials: true
   },
-  cookie: {
-    sameSite: 'None', // Permite cookies en contextos cross-origin
-    secure: true // Solo en producción, asegúrate de usar HTTPS
-  }
 });
+
 
 const { v4: uuidV4 } = require('uuid')
 
@@ -42,7 +38,7 @@ io.on('connection', socket => {
 
     // Manejar la oferta que llega de un cliente
     socket.on('offer', (offer) => {
-      console.log(`Servidor recibió oferta de ${userId}:`, offer);
+      console.log(`Servidor recibió oferta de ${userId}:`);
 
       // Enviar la oferta a todos los demás clientes en la misma sala
       socket.to(roomId).broadcast.emit('offer', offer);
