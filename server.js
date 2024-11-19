@@ -9,6 +9,7 @@ const io = require('socket.io')(server, {
   },
   transports: ['websocket', 'polling'], // Asegúrate de soportar ambos transportes
 });
+const cors = require('cors');
 app.use(cors());
 
 
@@ -54,7 +55,7 @@ io.on('connection', (socket) => {
     const room = io.sockets.adapter.rooms.get(roomId);
     if (room && room.size > 1) {
       socket.to(roomId).emit('user-connected', userId);
-      console.log('user-connected', userId)
+      console.log('user-connected', userId);
     } else {
       console.log(`No hay otros usuarios en la sala ${roomId}`);
     }
