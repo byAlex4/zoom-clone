@@ -1,8 +1,8 @@
-const socket = io('http://your-server-url:3000', { transports: ['websocket'] });
+const socket = io('/');
 const videoGrid = document.getElementById('video-grid');
 
 const myPeer = new Peer(undefined, {
-  host: 'your-server-url',
+  host: '/',
   port: 3000,
   path: '/peerjs',
   secure: false,
