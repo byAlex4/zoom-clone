@@ -45,38 +45,50 @@ app.get('/:room', (req, res) => {
 });
 
 // Configuración de Socket.IO para manejar la oferta y respuesta
-io.on('connection', (socket) => {
-  console.log('Nuevo cliente conectado:', socket.id);
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
 
-  socket.on('join-room', (roomId, userId) => {
-    if (!roomId || !userId) {
-      console.error('Error: roomId o userId faltantes');
-      return;
-    }
-
-    console.log(`Usuario ${userId} se unió a la sala ${roomId}`);
+  socket.on("join-room", (roomId, userId) => {
+    console.log(`User ${userId} joined room ${roomId}`);
     socket.join(roomId);
+    socket.to(roomId).emit("user-connected", userId);
+  });
 
-    // Validar si hay más usuarios en la sala
-    const room = io.sockets.adapter.rooms.get(roomId);
-    if (room && room.size > 1) {
-      socket.to(roomId).emit('user-connected', userId);
-      console.log('user-connected', userId);
-    } else {
-      console.log(`No hay otros usuarios en la sala ${roomId}`);
+  socket.on("offer", (offer) => {
+    console.log("Received offer:", offer);
+    const room = Array.from(socket.rooms).find((r) => r !== socket.id);
+    if (room) {
+      socket.to(room).emit("offer", offer);
     }
   });
 
-  socket.on('disconnect', () => {
-    console.log('Cliente desconectado:', socket.id);
+  socket.on("answer", (answer) => {
+    console.log("Received answer:", answer);
+    const room = Array.from(socket.rooms).find((r) => r !== socket.id);
+    if (room) {
+      socket.to(room).emit("answer", answer);
+    }
   });
-});
 
-io.engine.on("connection_error", (err) => {
-  console.log(err.req);      // the request object
-  console.log(err.code);     // the error code, for example 1
-  console.log(err.message);  // the error message, for example "Session ID unknown"
-  console.log(err.context);  // some additional error context
+  socket.on("ice-candidate", (candidate) => {
+    console.log("Received ICE candidate:", candidate);
+    const room = Array.from(socket.rooms).find((r) => r !== socket.id);
+    if (room) {
+      socket.to(room).emit("ice-candidate", candidate);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+    // Informar a otros usuarios en la sala si es necesario
+  });
+
+  socket.on("connection_error", (err) => {
+    console.log(err.req);      // the request object
+    console.log(err.code);     // the error code, for example 1
+    console.log(err.message);  // the error message, for example "Session ID unknown"
+    console.log(err.context);  // some additional error context
+  });
 });
 
 // Integración de PeerJS en el mismo servidor
