@@ -1,4 +1,8 @@
-const socket = io('/');
+const socket = io('/', {
+  transports: ['websocket', 'polling'], // Permite WebSocket y Polling
+});
+
+
 const videoGrid = document.getElementById('video-grid');
 
 const myPeer = new Peer(undefined, {

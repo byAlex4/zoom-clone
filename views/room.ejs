@@ -5,14 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script async src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
-  <script defer src="/socket.io/socket.io.js" defer></script>
+  <script defer src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
+  <script defer src="/socket.io/socket.io.js"></script>
   <script defer>
     const ROOM_ID = "<%= roomId %>";
     console.log(ROOM_ID);
   </script>
   <script defer src="./script.js"></script>
-  <title>Document root</title>
+  <title>Room: roomId </title>
 
   <style>
     /* Estilos generales */
