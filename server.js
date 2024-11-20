@@ -17,9 +17,6 @@ app.use(cors({
   methods: ["GET", "POST"],
 }));
 
-
-
-
 const { v4: uuidV4 } = require('uuid');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -55,26 +52,26 @@ io.on("connection", (socket) => {
   });
 
   socket.on("offer", (offer) => {
-    console.log("Received offer:", offer);
     const room = Array.from(socket.rooms).find((r) => r !== socket.id);
     if (room) {
       socket.to(room).emit("offer", offer);
+      console.log("Received offer:", offer);
     }
   });
 
   socket.on("answer", (answer) => {
-    console.log("Received answer:", answer);
     const room = Array.from(socket.rooms).find((r) => r !== socket.id);
     if (room) {
       socket.to(room).emit("answer", answer);
+      console.log("Received answer:", answer);
     }
   });
 
   socket.on("ice-candidate", (candidate) => {
-    console.log("Received ICE candidate:", candidate);
     const room = Array.from(socket.rooms).find((r) => r !== socket.id);
     if (room) {
       socket.to(room).emit("ice-candidate", candidate);
+      console.log("Received ICE candidate:", candidate);
     }
   });
 
